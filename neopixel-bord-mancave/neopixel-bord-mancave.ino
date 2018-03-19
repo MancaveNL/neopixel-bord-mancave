@@ -18,15 +18,15 @@ FASTLED_USING_NAMESPACE
 #define TOP_PIN D2
 #define BOTTOM_PIN D1
 //#define CLK_PIN   4
-#define LED_TYPE    WS2812
+#define LED_TYPE    WS2812B
 #define NUM_LEDS    56
-#define MANCAVE  0xFF007F
+#define MANCAVE  0x5688C7
 
 CRGB top[NUM_LEDS];
 CRGB bottom[NUM_LEDS];
 
 #define BRIGHTNESS          255
-#define FRAMES_PER_SECOND  120
+#define FRAMES_PER_SECOND  60
 
 void setup() {
   delay(3000); // 3 second delay for recovery
@@ -42,7 +42,7 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, mancave };
+SimplePatternList gPatterns = {intro, mancave, rainbow, rainbowWithGlitter, confetti, sinelon, juggle };
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -68,6 +68,13 @@ void nextPattern()
 {
   // add one to the current pattern number, and wrap around at the end
   gCurrentPatternNumber = (gCurrentPatternNumber + 1) % ARRAY_SIZE( gPatterns);
+}
+
+void intro(){
+  for( int i = 0; i < NUM_LEDS; i++) {
+    top[i] = MANCAVE;
+    bottom[i] = MANCAVE;
+  }
 }
 
 void rainbow() 
